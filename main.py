@@ -29,5 +29,5 @@ def tc():
     if not p:
         print("Connect failed!")
     else:
-        answer = p.initCommand(b'1234567812345678', b'W\x00i\x00P\x00y\x00')
+        answer = p.initCommand('1234567812345678', 'WiPy')
         print(answer)
