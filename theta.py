@@ -37,5 +37,21 @@ class Theta:
         self.ptpip = ptpip.PTPIP('192.168.1.1')
         return self.ptpip
 
+    def initPTP(self):
+        answer = self.ptpip.initCommand('1234567812345678', 'WiPy')
+        return answer
+
+    def openSession(self):
+        answer = self.ptpip.createCommand(0x1002, [])
+        return answer
+
+    def closeSession(self):
+        answer = self.ptpip.createCommand(0x1003, [])
+        return answer
+
+    def shoot(self):
+        answer = self.ptpip.createCommand(0x100e, [0x0, 0x0])
+        return answer
+
     def getPTPIP(self):
         return self.ptpip

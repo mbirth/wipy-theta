@@ -29,5 +29,5 @@ def tc():
     if not p:
         print("Connect failed!")
     else:
-        answer = p.initCommand('1234567812345678', 'WiPy')
+        answer = t.initPTP()
         print(answer)

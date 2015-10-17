@@ -1,6 +1,11 @@
 """
 PTP/IP class for MicroPython
 @author Markus Birth <markus@birth-online.de>
+
+PTP packet structure: http://www.gphoto.org/doc/ptpip.php
+                  and https://github.com/gphoto/libgphoto2/blob/master/camlibs/ptp2/PTPIP.TXT
+PTP example implementation in JavaScript: https://github.com/feklee/ptp.js
+PTP response codes: http://www.javased.com/?source_dir=cameraptp/src/main/java/ste/ptp/Response.java
 """
 import binascii
 import socket
@@ -72,4 +77,28 @@ class PTPIP:
         session_id  = struct.unpack('<I', result[1][0:4])[0]
         remote_guid = binascii.hexlify(result[1][4:20])
         remote_name = self.utf16to8(result[1][20:])
+        self.trans_id = 0
         return (session_id, remote_guid, remote_name)
+
+    def createCommand(self, cmd_code, cmd_args):
+        if type(cmd_args) is not list:
+            print("Specify cmd_args as list!")
+            return False
+        self.trans_id += 1
+        payload = b''
+        payload += struct.pack('<IHI', 1, cmd_code, self.trans_id)
+        for a in cmd_args:
+            payload += struct.pack('<I', a)
+        pkg = self.createPkg(6, payload)
+        self.socket.send(pkg)
+        result = self.recvPkg()
+        if result[0] != 7:
+            print("Answer package was of type: %i (%s)" % (result[0], result[1]))
+            return False
+        (response_code, trans_id) = struct.unpack('<HI', result[1][0:6])
+        remainder = result[1][6:]
+        args = []
+        while len(remainder) > 0:
+            args.append(struct.unpack('<I', remainder[:4]))
+            remainder = remainder[4:]
+        return (response_code, trans_id, args)
