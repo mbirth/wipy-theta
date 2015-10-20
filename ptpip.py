@@ -2,6 +2,7 @@
 PTP/IP class for MicroPython
 @author Markus Birth <markus@birth-online.de>
 
+PTP/IP abstract: http://www.cipa.jp/ptp-ip/index_e.html
 PTP packet structure: http://www.gphoto.org/doc/ptpip.php
                   and https://github.com/gphoto/libgphoto2/blob/master/camlibs/ptp2/PTPIP.TXT
 PTP example implementation in JavaScript: https://github.com/feklee/ptp.js
@@ -74,11 +75,23 @@ class PTPIP:
         elif result[0] != 2:
             print("Unknown package type: %i" % result[0])
             return False
-        session_id  = struct.unpack('<I', result[1][0:4])[0]
+        self.session_id  = struct.unpack('<I', result[1][0:4])[0]
         remote_guid = binascii.hexlify(result[1][4:20])
         remote_name = self.utf16to8(result[1][20:])
         self.trans_id = 0
-        return (session_id, remote_guid, remote_name)
+        return (self.session_id, remote_guid, remote_name)
+
+    def initEvent(self, session_id):
+        pkg = self.createPkg(3, struct.pack('<I', session_id))
+        self.socket.send(pkg)
+        result = self.recvPkg()
+        if result[0] == 5:
+            print("INIT EVENT FAILED!")
+            return False
+        elif result[0] != 4:
+            print("Unknown package type: %i" % result[0])
+            return False
+        return True
 
     def createCommand(self, cmd_code, cmd_args):
         if type(cmd_args) is not list:

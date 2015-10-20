@@ -18,9 +18,13 @@ class Theta:
 
     def findWifi(self):
         wlans = self.wlan.scan()
+        # TODO: Return all visible Thetas
         for w in wlans:
             if w.ssid.startswith('THETA'):
                 self.log('Found Theta WiFi: %s' % w.ssid)
+                # THETAXL12345678     = Theta (original model) - PTP/IP
+                # THETAXN12345678     = Theta m15 - PTP/IP
+                # THETAXS12345678.OSC = Theta S   - OSC
                 return w.ssid
         return False
 
@@ -39,7 +43,15 @@ class Theta:
 
     def initPTP(self):
         answer = self.ptpip.initCommand('1234567812345678', 'WiPy')
-        return answer
+        if not answer:
+            print("Init failed!")
+            return False
+        (session_id, guid, name) = answer
+        pass2 = self.ptpip.initEvent(session_id)
+        if not pass2:
+            print("Init stage 2 failed!")
+            return False
+        return (session_id, guid, name)
 
     def openSession(self):
         answer = self.ptpip.createCommand(0x1002, [])
