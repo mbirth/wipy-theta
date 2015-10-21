@@ -5,10 +5,10 @@
 import config
 
 from network import WLAN
-wifi = WLAN(WLAN.STA)
+wifi = WLAN(mode=WLAN.STA)
 wifi.connect(config.HOME_SSID, auth=(WLAN.WPA, config.HOME_PASSWORD))
 
 from machine import UART
 from os import dupterm
-uart = UART(0, baudrate=115200)
+uart = UART(0, 115200)
 dupterm(uart)
