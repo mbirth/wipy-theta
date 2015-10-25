@@ -2,7 +2,6 @@
 
 from machine import Pin
 import time
-import theta
 
 led = Pin("GP16", Pin.OUT)
 
@@ -20,10 +19,13 @@ btn.irq(trigger=Pin.IRQ_FALLING, handler=btnPressed)
 
 def home():
     global wifi
+    if wifi.mode() != WLAN.STA:
+        wifi.mode(WLAN.STA)
     wifi.connect(config.HOME_SSID, auth=(WLAN.WPA, config.HOME_PASSWORD))
 
 def tc():
     global t, p
+    import theta
     t = theta.Theta()
     p = t.connect()
     if not p:
