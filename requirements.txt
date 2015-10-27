@@ -1,0 +1,3 @@
+micropython-os
+micropython-re-pcre
+micropython-socket
