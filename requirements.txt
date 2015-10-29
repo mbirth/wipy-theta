@@ -1,4 +1,4 @@
-# Install with: micropython -m upip install -r requirements.txt
+micropython-json
 micropython-os
 micropython-re-pcre
 micropython-socket

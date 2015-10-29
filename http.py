@@ -1,10 +1,11 @@
 """
 HTTP helper class
 @author Markus Birth <markus@birth-online.de>
-
-RFC: http://www.w3.org/Protocols/rfc2616/rfc2616.html
-Inspiration: http://www.wellho.net/resources/ex.php4?item=y303/browser.py
 """
+
+# RFC: http://www.w3.org/Protocols/rfc2616/rfc2616.html
+# Inspiration: http://www.wellho.net/resources/ex.php4?item=y303/browser.py
+
 import re
 import socket
 
@@ -34,8 +35,8 @@ class HTTP:
 
     def do_request(self, url, payload=False, type="GET"):
         urlparts = self.parse_url(url)
-        
-        pass
+
+
 
 class ParseResult():
     def __init__(self, scheme, netloc, path, params, query, fragment, username, password, hostname, port):

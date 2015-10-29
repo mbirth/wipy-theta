@@ -13,6 +13,10 @@ Preparation
 
 Copy the `config.example.py` to `config.py` and adjust the constants to your home wifi network.
 
+If you want to try the script from a desktop computer, install all needed dependencies with:
+
+    micropython -m upip install -r requirements.txt
+
 
 Connecting to the THETA
 -----------------------

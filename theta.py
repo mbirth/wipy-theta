@@ -1,6 +1,5 @@
 """
 RICOH Theta class for MicroPython
-
 @author Markus Birth <markus@birth-online.de>
 """
 

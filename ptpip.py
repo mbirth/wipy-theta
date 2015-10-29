@@ -1,13 +1,14 @@
 """
 PTP/IP class for MicroPython
 @author Markus Birth <markus@birth-online.de>
-
-PTP/IP abstract: http://www.cipa.jp/ptp-ip/index_e.html
-PTP packet structure: http://www.gphoto.org/doc/ptpip.php
-                  and https://github.com/gphoto/libgphoto2/blob/master/camlibs/ptp2/PTPIP.TXT
-PTP example implementation in JavaScript: https://github.com/feklee/ptp.js
-PTP response codes: http://www.javased.com/?source_dir=cameraptp/src/main/java/ste/ptp/Response.java
 """
+
+# PTP/IP abstract: http://www.cipa.jp/ptp-ip/index_e.html
+# PTP packet structure: http://www.gphoto.org/doc/ptpip.php
+#                   and https://github.com/gphoto/libgphoto2/blob/master/camlibs/ptp2/PTPIP.TXT
+# PTP example implementation in JavaScript: https://github.com/feklee/ptp.js
+# PTP response codes: http://www.javased.com/?source_dir=cameraptp/src/main/java/ste/ptp/Response.java
+
 import binascii
 import socket
 import struct
