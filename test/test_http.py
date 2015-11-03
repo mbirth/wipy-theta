@@ -10,7 +10,7 @@ class TestHttp(unittest.TestCase):
         import http
         self.http = http.HTTP()
 
-    def test_parse_url(self):
+    def test_parse_url1(self):
         urlparts = self.http.parse_url('https://user:passwd@example.org:1234/test?x=3&y=4#fragme')
         self.assertEqual(urlparts.scheme, 'https')
         self.assertEqual(urlparts.hostname, 'example.org')
@@ -54,6 +54,19 @@ class TestHttp(unittest.TestCase):
         self.assertEqual(urlparts.password, None)
         self.assertEqual(urlparts.port, 1234)
 
+    def test_parse_ipv6_1(self):
+        urlparts = self.http.parse_url('http://[fedc:ba98::3210]/test')
+        self.assertEqual(urlparts.hostname, '[fedc:ba98::3210]')
+
+    def test_parse_ipv6_2(self):
+        urlparts = self.http.parse_url('http://[fedc:ba98::3210]:1234/test')
+        self.assertEqual(urlparts.hostname, '[fedc:ba98::3210]')
+        self.assertEqual(urlparts.port, 1234)
+
+    def test_parse_ipv6_3(self):
+        urlparts = self.http.parse_url('http://[::FFFF:129.144.52.38]:5678/blah')
+        self.assertEqual(urlparts.hostname, '[::FFFF:129.144.52.38]')
+        self.assertEqual(urlparts.port, 5678)
 
 if __name__ == '__main__':
     unittest.main()

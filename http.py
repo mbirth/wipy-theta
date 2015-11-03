@@ -19,15 +19,14 @@ class HTTP:
         query    = re1.group(7)
         fragment = re1.group(9)
 
-        # TODO: Not IPv6 ready!!!
-        re2 = re.match('^(([^:]+)(:([^@]*))?@)?([^:]+)(:(\d+))?$', hostpart)
+        re2 = re.match('^(([^:]+)(:([^@]*))?@)?((\[.+\])|[^:]+)(:(\d+))?$', hostpart)
         #for i in range(0, 10):
         #    print(str(i) + ': ' + re2.group(i))
 
         username = re2.group(2) or None
         password = re2.group(4) or None
         hostname = re2.group(5) or None
-        port     = re2.group(7) or None
+        port     = re2.group(8) or None
         if port:
             port = int(port)
 
